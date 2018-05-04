@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">GitHub Stars</string>
+    <string name="retry">retry</string>
+    <string name="title_activity_main">GitHub Stars</string>
+    <string name="search_hint">사용자를 입력하세요.</string>
+    <string name="search_button">검색</string>
+    <string name="input_text">검색어를 입력하세요.</string>
+</resources>
