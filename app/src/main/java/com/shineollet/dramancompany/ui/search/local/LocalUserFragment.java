@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,22 +12,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.shineollet.dnc.R;
+import com.shineollet.dramancompany.di.scope.ActivityScoped;
 import com.shineollet.dramancompany.ui.search.SearchContract;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.support.DaggerFragment;
 import io.reactivex.disposables.CompositeDisposable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * 로컬 사용자 프레그먼트
  */
-public class LocalUserFragment extends Fragment implements SearchContract.View {
+@ActivityScoped
+public class LocalUserFragment extends DaggerFragment implements SearchContract.View {
     public final static String LIST_STATE_KEY = "recycler_list_state";
 
-    SearchContract.Presenter mPresenter;
+    @Inject
+    LocalUserPresenter mPresenter;
 
     LinearLayoutManager linearLayoutManager;
 
@@ -38,14 +41,12 @@ public class LocalUserFragment extends Fragment implements SearchContract.View {
     private Unbinder unbinder;
     private CompositeDisposable mCompositeDisposable;
 
-
+    @Inject
     public LocalUserFragment() {
-        // Create the presenter
     }
-
-    public static LocalUserFragment newInstance() {
-        return new LocalUserFragment();
-    }
+//    public static LocalUserFragment newInstance() {
+//        return new LocalUserFragment();
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,11 +87,6 @@ public class LocalUserFragment extends Fragment implements SearchContract.View {
     @Override
     public void showError(@NonNull String msg) {
         Snackbar.make(userRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void setPresenter(@NonNull SearchContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Nullable

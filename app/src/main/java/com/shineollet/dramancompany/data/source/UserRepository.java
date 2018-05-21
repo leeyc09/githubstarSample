@@ -1,51 +1,37 @@
 package com.shineollet.dramancompany.data.source;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.shineollet.dramancompany.data.source.local.entity.FavoriteUser;
 import com.shineollet.dramancompany.data.source.remote.model.UserResponse;
+import com.shineollet.dramancompany.di.Qualifier.Local;
+import com.shineollet.dramancompany.di.Qualifier.Remote;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import retrofit2.Response;
 
+/**
+ *
+ */
+@Singleton
 public class UserRepository implements UserDataSource {
 
-    @Nullable
-    private static UserRepository INSTANCE = null;
-
-    @NonNull
     private final UserDataSource mUserRemoteDataSource;
 
-    @NonNull
     private final UserDataSource mUserLocalDataSource;
 
-    public UserRepository(@NonNull UserDataSource mUserRemoteDataSource, @NonNull UserDataSource mUserLocalDataSource) {
+    @Inject
+    public UserRepository(@Remote UserDataSource mUserRemoteDataSource,
+                          @Local UserDataSource mUserLocalDataSource) {
         this.mUserRemoteDataSource = mUserRemoteDataSource;
         this.mUserLocalDataSource = mUserLocalDataSource;
-    }
-
-
-    public static UserRepository getInstance(@NonNull UserDataSource mUserRemoteDataSource, @NonNull UserDataSource mUserLocalDataSource) {
-        if (null == INSTANCE) {
-            synchronized (UserRepository.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new UserRepository(mUserRemoteDataSource, mUserLocalDataSource);
-                }
-            }
-        }
-        return INSTANCE;
-    }
-
-    /**
-     * 새로운 인스턴스를 생성할 때 불려진다.
-     */
-    public static void destroyInstance() {
-        INSTANCE = null;
     }
 
     /**

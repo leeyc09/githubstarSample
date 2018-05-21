@@ -3,16 +3,18 @@ package com.shineollet.dramancompany.ui;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.shineollet.dnc.R;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerAppCompatActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DaggerAppCompatActivity {
 
     @BindView(R.id.tabhost)
     TabLayout tabLayout;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.pager)
     ViewPager viewPager;
 
+    @Inject
     TabPagerAdapter pagerAdapter;
 
     @Override
@@ -35,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("favorite"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        pagerAdapter = new TabPagerAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount());
+//        pagerAdapter = new TabPagerAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         // Set TabSelectedListener

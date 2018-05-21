@@ -62,7 +62,12 @@ dependencies {
     //image
     implementation 'com.facebook.fresco:fresco:1.9.0'
 
-
+    //dagger di
+    implementation "com.google.dagger:dagger:2.16"
+    implementation "com.google.dagger:dagger-android:2.16"
+    implementation "com.google.dagger:dagger-android-support:2.16"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.16"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.16"
 
     // Dependencies for local unit tests
     testImplementation "junit:junit:4.12"

@@ -10,30 +10,21 @@ import com.shineollet.dramancompany.data.source.remote.model.UserResponse;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
 import retrofit2.Response;
 
+@Singleton
 public class UserRemoteDataSource implements UserDataSource {
-
-    private static UserRemoteDataSource INSTANCE;
 
     private GithubApiService mRetrofitService;
 
-
+    @Inject
     public UserRemoteDataSource() {
-    }
-
-    public static UserRemoteDataSource getInstance() {
-        if (null == INSTANCE) {
-            synchronized (UserRemoteDataSource.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new UserRemoteDataSource();
-                }
-            }
-        }
-        return INSTANCE;
     }
 
     private void initSource() {
@@ -51,6 +42,7 @@ public class UserRemoteDataSource implements UserDataSource {
     @Deprecated
     @Override
     public Maybe<FavoriteUser> getUserById(int id) {
+        // localdata 전용으로 쓰지 않음
         //not use;
         return null;
     }
@@ -58,19 +50,22 @@ public class UserRemoteDataSource implements UserDataSource {
     @Deprecated
     @Override
     public Flowable<List<FavoriteUser>> getUsers() {
-        //not use;
+        // localdata 전용으로 쓰지 않음
+        // not use;
         return null;
     }
 
     @Deprecated
     @Override
     public void saveUser(@NonNull Object userItem) {
+        // localdata 전용으로 쓰지 않음
         //not use;
     }
 
     @Deprecated
     @Override
     public void deleteUser(@NonNull Object userItem) {
+        // localdata 전용으로 쓰지 않음
         //not use;
     }
 

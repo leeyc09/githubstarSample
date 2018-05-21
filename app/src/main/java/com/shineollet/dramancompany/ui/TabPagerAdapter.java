@@ -6,42 +6,42 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.shineollet.dramancompany.Injection;
+import com.shineollet.dramancompany.di.scope.ActivityScoped;
 import com.shineollet.dramancompany.ui.search.local.LocalUserFragment;
-import com.shineollet.dramancompany.ui.search.local.LocalUserPresenter;
 import com.shineollet.dramancompany.ui.search.remote.RemoteUserFragment;
-import com.shineollet.dramancompany.ui.search.remote.RemoteUserPresenter;
 
+import javax.inject.Inject;
+
+@ActivityScoped
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
     @NonNull
     Context context;
-    private int tabCount;
-    @NonNull
-    private RemoteUserPresenter mRemoteUserPresenter;
+    private int tabCount = 2;
+//
+//    @Inject
+//    RemoteUserFragment remoteUserFragment;
+//    private RemoteUserPresenter mRemoteUserPresenter;
+//
+//    @Inject
+//    LocalUserFragment localUserFragment;
+//    private LocalUserPresenter mLocalUserPresenter;
 
-    @NonNull
-    private LocalUserPresenter mLocalUserPresenter;
-
-    public TabPagerAdapter(Context context, FragmentManager fm, @NonNull int tabCount) {
+    @Inject
+    public TabPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         this.context = context;
-        this.tabCount = tabCount;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                RemoteUserFragment remoteUserFragment = RemoteUserFragment.newInstance();
-                mRemoteUserPresenter = new RemoteUserPresenter(Injection.provideUserRepository(context), remoteUserFragment);
-                remoteUserFragment.setPresenter(mRemoteUserPresenter);
-                return remoteUserFragment;
+//                return new RemoteUserFragment();
+                return new RemoteUserFragment();
             case 1:
-                LocalUserFragment localUserFragment = LocalUserFragment.newInstance();
-                mLocalUserPresenter = new LocalUserPresenter(Injection.provideUserRepository(context), localUserFragment);
-                localUserFragment.setPresenter(mLocalUserPresenter);
-                return localUserFragment;
+//                return new LocalUserFragment();
+                return new LocalUserFragment();
             default:
                 return null;
         }

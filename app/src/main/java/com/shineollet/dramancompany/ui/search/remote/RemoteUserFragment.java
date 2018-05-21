@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,24 +17,28 @@ import android.widget.EditText;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.shineollet.dnc.R;
+import com.shineollet.dramancompany.di.scope.ActivityScoped;
 import com.shineollet.dramancompany.ui.search.SearchContract;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.support.DaggerFragment;
 import io.reactivex.disposables.CompositeDisposable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * 리모트 사용자 프레그먼트
  */
-public class RemoteUserFragment extends Fragment implements SearchContract.View {
+@ActivityScoped
+public class RemoteUserFragment extends DaggerFragment implements SearchContract.View {
     public final static String LIST_STATE_KEY = "recycler_list_state";
 
-    SearchContract.Presenter mPresenter;
+    @Inject
+    RemoteUserPresenter mPresenter;
 
     LinearLayoutManager linearLayoutManager;
 
@@ -51,13 +54,12 @@ public class RemoteUserFragment extends Fragment implements SearchContract.View 
     private Unbinder unbinder;
     private CompositeDisposable mCompositeDisposable;
 
+    @Inject
     public RemoteUserFragment() {
-        // Create the presenter
     }
-
-    public static RemoteUserFragment newInstance() {
-        return new RemoteUserFragment();
-    }
+//    public static RemoteUserFragment newInstance() {
+//        return new RemoteUserFragment();
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -93,11 +95,6 @@ public class RemoteUserFragment extends Fragment implements SearchContract.View 
     @Override
     public void showError(@NonNull String msg) {
         Snackbar.make(userRecyclerView, msg, Snackbar.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void setPresenter(@NonNull SearchContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
     }
 
     @Nullable
@@ -183,6 +180,5 @@ public class RemoteUserFragment extends Fragment implements SearchContract.View 
         mCompositeDisposable.clear();
         unbinder.unbind();
     }
-
 
 }

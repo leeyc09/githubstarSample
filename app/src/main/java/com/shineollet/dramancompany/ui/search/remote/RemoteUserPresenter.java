@@ -12,21 +12,19 @@ import com.shineollet.dramancompany.util.ConvertGithubApiResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 public class RemoteUserPresenter implements SearchContract.Presenter {
 
-    @NonNull
     private final UserRepository mUserRepository;
 
-    @NonNull
-    private final SearchContract.View mUserView;
+    private SearchContract.View mUserView;
     boolean isFirstSearch = true;
     @NonNull
     private CompositeDisposable mCompositeDisposable;
@@ -36,14 +34,14 @@ public class RemoteUserPresenter implements SearchContract.Presenter {
 
     private int mNextPage = 0;
 
-    public RemoteUserPresenter(@NonNull UserRepository mUserRepository, @NonNull SearchContract.View mUserView) {
-        this.mUserRepository = checkNotNull(mUserRepository, "UserRepository cannot be null");
-        this.mUserView = checkNotNull(mUserView, "UserView cannot be null");
+    @Inject
+    public RemoteUserPresenter(UserRepository mUserRepository, RemoteUserFragment mUserView) {
+        this.mUserRepository = mUserRepository;
+        this.mUserView = mUserView;
 
         mCompositeDisposable = new CompositeDisposable();
         mUsers = new ArrayList<>();
         mUsersIncludeHead = new ArrayList<>();
-        mUserView.setPresenter(this);
     }
 
     @Override

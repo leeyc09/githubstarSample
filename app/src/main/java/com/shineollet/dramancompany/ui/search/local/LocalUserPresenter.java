@@ -10,6 +10,8 @@ import com.shineollet.dramancompany.ui.search.SearchContract;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -22,24 +24,22 @@ public class LocalUserPresenter implements SearchContract.Presenter {
     private final UserRepository mUserRepository;
 
     @NonNull
-    private final SearchContract.View mUserView;
-
+    private SearchContract.View mUserView;
 
     private List<FavoriteUser> mUsers;
     private List<FavoriteUser> mUsersIncludeHead;
 
-
     @NonNull
     private CompositeDisposable mCompositeDisposable;
 
-    public LocalUserPresenter(@NonNull UserRepository mUserRepository, @NonNull SearchContract.View mUserView) {
+    @Inject
+    public LocalUserPresenter(@NonNull UserRepository mUserRepository, LocalUserFragment mUserView) {
         this.mUserRepository = checkNotNull(mUserRepository, "UserRepository cannot be null");
         this.mUserView = checkNotNull(mUserView, "UserView cannot be null");
 
         mCompositeDisposable = new CompositeDisposable();
         mUsers = new ArrayList<>();
         mUsersIncludeHead = new ArrayList<>();
-        mUserView.setPresenter(this);
     }
 
 

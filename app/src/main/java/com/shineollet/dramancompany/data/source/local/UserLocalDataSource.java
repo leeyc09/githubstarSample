@@ -10,6 +10,9 @@ import com.shineollet.dramancompany.data.source.remote.model.UserResponse;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.Flowable;
@@ -20,27 +23,17 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
+/**
+ * 싱글턴 어노테이션을 추가하면서 싱글톤을 위하 인스턴스 생성 부분을 제거함.
+ */
+@Singleton
 public class UserLocalDataSource implements UserDataSource {
-
-    private static volatile UserLocalDataSource INSTANCE;
-
 
     private FavoriteUserDao mFavoriteUserDao;
 
-
+    @Inject
     public UserLocalDataSource(@NonNull FavoriteUserDao favoriteUserDao) {
         mFavoriteUserDao = favoriteUserDao;
-    }
-
-    public static UserLocalDataSource getInstance(@NonNull FavoriteUserDao favoriteUserDao) {
-        if (null == INSTANCE) {
-            synchronized (UserLocalDataSource.class) {
-                if (null == INSTANCE) {
-                    INSTANCE = new UserLocalDataSource(favoriteUserDao);
-                }
-            }
-        }
-        return INSTANCE;
     }
 
     @Override
